@@ -42,6 +42,7 @@ Instala dependencias:
 npm install
 ```
 
+
 ---
 
 ## 🔑 Configuración de entorno
@@ -52,6 +53,13 @@ Crea un archivo `.env` en la raíz del proyecto basado en el ejemplo:
 cp example.env .env
 ```
 
+---
+
+## Levantar la base de datos con Docker
+
+```bash
+docker-compose up -d
+```
 Edita las variables según tu entorno (ejemplo: conexión a la base de datos).
 
 ---

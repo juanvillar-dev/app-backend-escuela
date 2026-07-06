@@ -1,0 +1,11 @@
+# Node
+node_modules
+
+# Builds
+dist/
+build/
+
+# Keep environment variables out of version control
+.env
+
+generated/

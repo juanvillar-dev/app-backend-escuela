@@ -1,0 +1,189 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+
+
+
+// =====================
+// MODELO DE USUARIO
+// =====================
+model Usuario {
+  id            Int      @id @default(autoincrement())
+  dni           String
+  nombre        String
+  apellido      String
+  email         String   @unique
+  passwordHash  String
+  rol           String   // enum: "Admin" | "Docente" | "Alumno"
+  genero        String
+
+  alumno  Alumno?
+  docente Docente?
+}
+
+// =====================
+// MODELO DE ALUMNO
+// =====================
+model Alumno {
+  id             Int      @id @default(autoincrement())
+  fechaNacimiento DateTime
+  usuarioId      Int      @unique
+  gradoId        Int
+
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  grado     Grado    @relation(fields: [gradoId], references: [id], onDelete: Restrict)
+  secciones SeccionAlumno[]
+  historial AlumnoMateriaGrado[]
+}
+
+// =====================
+// MODELO DE DOCENTE
+// =====================
+model Docente {
+  id          Int      @id @default(autoincrement())
+  usuarioId   Int      @unique
+  especialidad String?
+
+  usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  seccionesTutor Seccion[]
+  horarios       Horario[]
+}
+
+// =====================
+// MODELO DE GRADO
+// =====================
+model Grado {
+  id        Int    @id @default(autoincrement())
+  nivel     String // enum: "inicial" | "primaria" | "secundaria"
+  year      Int
+
+  materias  GradoMateria[]
+  alumnos   Alumno[]
+  secciones Seccion[]
+  historial AlumnoMateriaGrado[] // relación inversa para evitar error
+}
+
+// =====================
+// MODELO DE SECCIÓN
+// =====================
+model Seccion {
+  id      Int     @id @default(autoincrement())
+  nombre  String
+  gradoId Int
+  tutorId Int
+  year    Int
+
+  grado   Grado   @relation(fields: [gradoId], references: [id], onDelete: Cascade)
+  tutor   Docente @relation(fields: [tutorId], references: [id], onDelete: Restrict)
+  alumnos SeccionAlumno[]
+  horarios Horario[]
+}
+
+// =====================
+// TABLA INTERMEDIA SECCIÓN-ALUMNO
+// =====================
+model SeccionAlumno {
+  id        Int     @id @default(autoincrement())
+  seccionId Int
+  alumnoId  Int
+
+  seccion   Seccion @relation(fields: [seccionId], references: [id], onDelete: Cascade)
+  alumno    Alumno  @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+}
+
+// =====================
+// MODELO DE ÁREA
+// =====================
+model Area {
+  id     Int      @id @default(autoincrement())
+  nombre String
+
+  materias Materia[]
+}
+
+// =====================
+// MODELO DE MATERIA
+// =====================
+model Materia {
+  id     Int    @id @default(autoincrement())
+  nombre String
+  areaId Int
+
+  area     Area   @relation(fields: [areaId], references: [id], onDelete: Restrict)
+  grados   GradoMateria[]
+  horarios Horario[]
+  historial AlumnoMateriaGrado[]
+}
+
+// =====================
+// TABLA INTERMEDIA GRADO-MATERIA
+// =====================
+model GradoMateria {
+  id        Int     @id @default(autoincrement())
+  gradoId   Int
+  materiaId Int
+
+  grado   Grado   @relation(fields: [gradoId], references: [id], onDelete: Cascade)
+  materia Materia @relation(fields: [materiaId], references: [id], onDelete: Restrict)
+}
+
+// =====================
+// HISTORIAL ACADÉMICO
+// =====================
+model AlumnoMateriaGrado {
+  id        Int     @id @default(autoincrement())
+  alumnoId  Int
+  materiaId Int
+  gradoId   Int
+  year      Int
+
+  alumno    Alumno  @relation(fields: [alumnoId], references: [id], onDelete: Cascade)
+  materia   Materia @relation(fields: [materiaId], references: [id], onDelete: Restrict)
+  grado     Grado   @relation(fields: [gradoId], references: [id], onDelete: Restrict)
+  notas     Nota[]
+}
+
+// =====================
+// MODELO DE NOTA
+// =====================
+model Nota {
+  id                   Int     @id @default(autoincrement())
+  alumnoMateriaGradoId Int
+  valor                Int
+  tipoEvaluacion       String
+  fecha                DateTime
+
+  alumnoMateriaGrado   AlumnoMateriaGrado @relation(fields: [alumnoMateriaGradoId], references: [id], onDelete: Cascade)
+}
+
+// =====================
+// MODELO DE HORARIO
+// =====================
+model Horario {
+  id        Int     @id @default(autoincrement())
+  seccionId Int
+  materiaId Int
+  docenteId Int
+  diaSemana String
+  horaInicio DateTime
+  horaFin    DateTime
+
+  seccion   Seccion @relation(fields: [seccionId], references: [id], onDelete: Cascade)
+  materia   Materia @relation(fields: [materiaId], references: [id], onDelete: Restrict)
+  docente   Docente @relation(fields: [docenteId], references: [id], onDelete: Restrict)
+}
+
+
+
+
