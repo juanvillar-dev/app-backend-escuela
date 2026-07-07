@@ -72,10 +72,9 @@ Genera el cliente de Prisma:
 npx prisma generate
 ```
 
-Ejecuta migraciones para crear las tablas en la base de datos:
-
+Ejecuta el data.sql para llenar la bd
 ```bash
-npx prisma migrate dev
+npx prisma db execute --file ./data.sql
 ```
 
 ---
