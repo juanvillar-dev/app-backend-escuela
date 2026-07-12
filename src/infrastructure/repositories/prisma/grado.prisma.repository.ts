@@ -40,7 +40,9 @@ export class GradoPrismaRepository implements GradoRepository {
 
 
     async findAll(): Promise<GradoEntity[]> {
-        const grados = await this.prisma.grado.findMany();
+        const grados = await this.prisma.grado.findMany({
+            include: {materias: { include: {materia: { include: {area: true} }}}}
+        }); // Incluir las materias relacionadas, y dentro su área
         return grados.map(GradoEntity.fromObject);
     }
 

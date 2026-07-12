@@ -61,6 +61,7 @@ export abstract class Controller <TEntity, TCreateDTO, TUpdateDTO, TPatchDTO>{
     public create = async (req: Request, res: Response) => {
         try {
             const dto = await this.createDTO(req.body);
+            console.log("controller basico - create - dto", dto);
             const resultado = await this.service.create(dto);
 
             res.status(201).json(resultado)

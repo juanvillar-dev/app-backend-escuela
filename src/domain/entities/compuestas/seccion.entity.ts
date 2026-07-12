@@ -2,7 +2,6 @@ import { CustomError } from "../basicas/custom.error";
 import { GradoEntity } from "../basicas/grado.entity";
 import { DocenteEntity } from "./docente.entity";
 
-
 export class SeccionEntity {
     constructor(
         public readonly id: number,
@@ -10,23 +9,17 @@ export class SeccionEntity {
         public grado: GradoEntity,
         public tutor: DocenteEntity,
         public year: number,
-        public readonly createdAt: Date,
-        public readonly updatedAt: Date,
+        public createdAt: Date,
+        public activo: boolean,
+        public numeroAlumnos?: number,
     ) {}
 
-    
     static fromObject(obj: any): SeccionEntity {
-        // if (!obj.id) 
-        //     throw CustomError.badRequest("Id requerido");
-        // if (!obj.nombre) 
-        //     throw CustomError.badRequest("Nombre requerido");
-        // if (!obj.grado) 
-        //     throw CustomError.badRequest("Grado requerido");
-        // if (!obj.tutor) 
-        //     throw CustomError.badRequest("Tutor requerido");
-        // if (!obj.year || isNaN(Number(obj.year))) {
-        //     throw CustomError.badRequest("año inválido");
-        // }
+        // if (!obj.id) throw CustomError.badRequest("Id requerido");
+        // if (!obj.nombre) throw CustomError.badRequest("Nombre requerido");
+        // if (!obj.grado) throw CustomError.badRequest("Grado requerido");
+        // if (!obj.tutor) throw CustomError.badRequest("Tutor requerido");
+        // if (!obj.year || isNaN(Number(obj.year))) throw CustomError.badRequest("Año inválido");
 
         const grado = GradoEntity.fromObject(obj.grado);
         const tutor = DocenteEntity.fromObject(obj.tutor);
@@ -37,8 +30,9 @@ export class SeccionEntity {
             grado,
             tutor,
             Number(obj.year),
-            new Date(obj.createdAt),
-            new Date(obj.updatedAt),
+            obj.createdAt,
+            obj.activo ?? true,
+            obj.numeroAlumnos
         );
     }
 }

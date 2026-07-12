@@ -1,5 +1,5 @@
 import express, { Express, Router } from "express";
-
+import cors from "cors";
 
 interface Options {
     port    : number;
@@ -25,6 +25,9 @@ export class AppServer {
         //  MIDDLEWARES
         this.app.use(express.json());
         this.app.use(express.urlencoded({extended: true}));
+        this.app.use(cors(
+            {origin: ['http://localhost:3000', 'http://localhost:5173'] }
+        ));
         
 
         //  ROUTES

@@ -45,6 +45,11 @@ model Alumno {
   grado     Grado    @relation(fields: [gradoId], references: [id], onDelete: Restrict)
   secciones SeccionAlumno[]
   historial AlumnoMateriaGrado[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+  // campo manual que puedes controlar
+  fechaRegistro DateTime?
 }
 
 // =====================
@@ -58,6 +63,12 @@ model Docente {
   usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   seccionesTutor Seccion[]
   horarios       Horario[]
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @default(now())
+  
+  // campo manual que puedes controlar
+  fechaRegistro DateTime?
 }
 
 // =====================
@@ -83,6 +94,8 @@ model Seccion {
   gradoId Int
   tutorId Int
   year    Int
+  activo  Boolean @default(true)
+  createdAt DateTime @default(now())
 
   grado   Grado   @relation(fields: [gradoId], references: [id], onDelete: Cascade)
   tutor   Docente @relation(fields: [tutorId], references: [id], onDelete: Restrict)
@@ -176,13 +189,14 @@ model Horario {
   materiaId Int
   docenteId Int
   diaSemana String
-  horaInicio DateTime
-  horaFin    DateTime
+  horaInicio String   // 👈 ahora string "HH:mm"
+  horaFin    String   // 👈 ahora string "HH:mm"
 
   seccion   Seccion @relation(fields: [seccionId], references: [id], onDelete: Cascade)
   materia   Materia @relation(fields: [materiaId], references: [id], onDelete: Restrict)
   docente   Docente @relation(fields: [docenteId], references: [id], onDelete: Restrict)
 }
+
 
 
 

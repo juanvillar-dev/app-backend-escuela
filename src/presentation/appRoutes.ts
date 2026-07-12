@@ -4,6 +4,7 @@ import { MateriaRouter } from "./materia/materia.route";
 import { GradoRouter } from "./grado/grado.route";
 import { AlumnoRouter } from "./alumno/alumno.route";
 import { DocenteRouter } from "./docente/docente.route";
+import { SeccionRouter } from "./serccion/seccion.route";
 
 
 export class AppRoutes {
@@ -11,11 +12,12 @@ export class AppRoutes {
     static get getRoutes(): Router{
         const router = Router();
 
-        router.use('/api/usuarios'  , UsuarioRouter .routes);
-        router.use('/api/materias'  , MateriaRouter .routes);
-        router.use('/api/grados'    , GradoRouter   .routes);
-        router.use('/api/alumnos'   , AlumnoRouter  .routes);
-        router.use('/api/docentes'  , DocenteRouter .routes);
+        router.use('/usuarios'  , UsuarioRouter .routes);
+        router.use('/materias'  , MateriaRouter .routes);
+        router.use('/grados'    , GradoRouter   .routes);
+        router.use('/alumnos'   , AlumnoRouter  .routes);
+        router.use('/docentes'  , DocenteRouter .routes);
+        router.use('/secciones' , SeccionRouter .routes);
 
         return router;
     }

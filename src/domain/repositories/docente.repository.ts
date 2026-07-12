@@ -6,4 +6,6 @@ import { Repository } from "./repository";
 
 export interface DocenteRepository 
 extends Repository<DocenteEntity, CreateDocenteDTO, UpdateDocenteDTO, PatchDocenteDTO>
-{}
+{
+    findHorariosByDocente(docenteId: number): Promise<any[]>;
+}

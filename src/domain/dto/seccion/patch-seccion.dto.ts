@@ -7,34 +7,38 @@ export class PatchSeccionDTO {
         public readonly gradoId?: number,
         public readonly tutorId?: number,
         public readonly year?   : number,
+        public readonly activo? : boolean,
     ) {}
 
-
     static create(obj: { [key: string]: any }): PatchSeccionDTO {
-        const { id, nombre, gradoId, tutorId, year } = obj;
+        const { id, nombre, gradoId, tutorId, year, activo } = obj;
 
         if (!id || isNaN(Number(id)))
             throw CustomError.badRequest("PatchSeccionDTO: ID inválido");
 
-        if (nombre && typeof nombre !== "string")
+        // Validaciones opcionales
+        if (nombre !== undefined && typeof nombre !== "string")
             throw CustomError.badRequest("PatchSeccionDTO: Nombre inválido");
 
-        if (gradoId && isNaN(Number(gradoId)))
+        if (gradoId !== undefined && isNaN(Number(gradoId)))
             throw CustomError.badRequest("PatchSeccionDTO: GradoId inválido");
 
-        if (tutorId && isNaN(Number(tutorId)))
+        if (tutorId !== undefined && isNaN(Number(tutorId)))
             throw CustomError.badRequest("PatchSeccionDTO: TutorId inválido");
 
-        if (year && isNaN(Number(year)))
+        if (year !== undefined && isNaN(Number(year)))
             throw CustomError.badRequest("PatchSeccionDTO: Year inválido");
 
+        if (activo !== undefined && typeof activo !== "boolean")
+            throw CustomError.badRequest("PatchSeccionDTO: Activo inválido");
 
         return new PatchSeccionDTO(
             Number(id),
             nombre,
-            gradoId ? Number(gradoId) : undefined,
-            tutorId ? Number(tutorId) : undefined,
-            year ? Number(year) : undefined
+            gradoId !== undefined ? Number(gradoId) : undefined,
+            tutorId !== undefined ? Number(tutorId) : undefined,
+            year !== undefined ? Number(year) : undefined,
+            activo
         );
     }
 }

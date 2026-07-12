@@ -17,6 +17,7 @@ export class DocenteRouter {
         router.put      ("/:id"     , controller.update         );
         router.patch    ("/:id"     , controller.patch          );
         router.delete   ("/:id"     , controller.deleteById     );
+        router.get      ("/horarios/:id", controller.getHorarios    );
 
         return router;
     }

@@ -19,6 +19,9 @@ CREATE TABLE `Alumno` (
     `fechaNacimiento` DATETIME(3) NOT NULL,
     `usuarioId` INTEGER NOT NULL,
     `gradoId` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `fechaRegistro` DATETIME(3) NULL,
 
     UNIQUE INDEX `Alumno_usuarioId_key`(`usuarioId`),
     PRIMARY KEY (`id`)
@@ -29,6 +32,9 @@ CREATE TABLE `Docente` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `usuarioId` INTEGER NOT NULL,
     `especialidad` VARCHAR(191) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `fechaRegistro` DATETIME(3) NULL,
 
     UNIQUE INDEX `Docente_usuarioId_key`(`usuarioId`),
     PRIMARY KEY (`id`)

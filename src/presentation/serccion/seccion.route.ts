@@ -1,8 +1,7 @@
 import { Router } from "express";
+import { SeccionController } from "./seccion.controller";
 import { SeccionPrismaRepository } from "../../infrastructure/repositories/prisma/seccion.prisma.repository";
 import { SeccionService } from "../../domain/service/seccion.service";
-import { SeccionController } from "./seccion.controller";
-
 
 
 export class SeccionRouter{
@@ -15,16 +14,17 @@ export class SeccionRouter{
         const controller    = new SeccionController (service);
 
         // CRUD genérico
-        router.get      ("/secciones"       , controller.findAll    );
-        router.get      ("/secciones/:id"   , controller.findById   );
-        router.post     ("/secciones"       , controller.create     );
-        router.put      ("/secciones/:id"   , controller.update     );
-        router.patch    ("/secciones/:id"   , controller.patch      );
-        router.delete   ("/secciones/:id"   , controller.deleteById );
+        router.get      ("/"      , controller.findAll    );
+        router.get      ("/:id"   , controller.findByIdDetalle   );
+        router.post     ("/"      , controller.create     );
+        router.put      ("/:id"   , controller.update     );
+        router.patch    ("/:id"   , controller.patch      );
+        router.delete   ("/:id"   , controller.deleteById );
 
         // Endpoints adicionales
-        router.post     ("/secciones/:id/alumnos"   , controller.addAlumno);
-        router.post     ("/secciones/:id/horarios"  , controller.addHorario);
+        router.post     ("/add-alumnos" , controller.addAlumnos);
+        router.post     ("/add-alumno"  , controller.addAlumno);
+        router.post     ("/add-horarios", controller.addHorarios);
 
         return router;
     }

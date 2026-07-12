@@ -52,7 +52,7 @@ export class AlumnoPrismaRepository implements AlumnoRepository {
                 data: {
                     fechaNacimiento: dto.fechaNacimiento,
                     grado: { connect: { id: dto.gradoId } },
-                    //createdAt: new Date(),
+                    updatedAt: new Date(),
                     usuario: {
                         create: {
                             dni: dto.usuario.dni,
@@ -83,6 +83,7 @@ export class AlumnoPrismaRepository implements AlumnoRepository {
                 where: { id: dto.id },
                 data: {
                     fechaNacimiento: dto.fechaNacimiento,
+                    updatedAt: new Date(),
                     grado: { connect: { id: dto.gradoId } },
                     usuario: {
                         update: {

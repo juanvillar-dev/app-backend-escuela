@@ -150,6 +150,38 @@ export class DocentePrismaRepository implements DocenteRepository{
     }
 
 
+        
     
+    async findHorariosByDocente(docenteId: number): Promise<any[]> {
+        const horarios = await this.prisma.horario.findMany({
+            where: { docenteId },
+            include: {
+                materia: true,
+                seccion: { include: { grado: true } }, // 👈 trae grado
+            },
+        });
+
+        return horarios.map(h => ({
+            id: h.id,
+            diaSemana: h.diaSemana,
+            horaInicio: h.horaInicio,
+            horaFin: h.horaFin,
+            
+            materia: { 
+                id: h.materia.id, 
+                nombre: h.materia.nombre 
+            },
+            
+            seccion: {
+                id: h.seccion.id,
+                nombre: h.seccion.nombre,
+                grado: {
+                    id: h.seccion.grado.id,
+                    nivel: h.seccion.grado.nivel,
+                    year: h.seccion.grado.year,
+                },
+            },
+        }));
+    }
 
 }

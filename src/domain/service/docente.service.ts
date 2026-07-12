@@ -11,4 +11,10 @@ extends ServiceBase<DocenteEntity, CreateDocenteDTO, UpdateDocenteDTO, PatchDoce
     constructor(repo: DocenteRepository){
         super(repo);
     }
+
+
+    async getHorariosDocente(docenteId: number): Promise<any[]> {
+    return await this.repo.findHorariosByDocente(docenteId);
+}
+
 }

@@ -1,4 +1,4 @@
-import { CustomError } from "../../entities/basicas/custom.error";
+import { CustomError } from "../../entities";
 
 export class UpdateSeccionDTO {
     private constructor(
@@ -7,11 +7,11 @@ export class UpdateSeccionDTO {
         public readonly gradoId : number,
         public readonly tutorId : number,
         public readonly year    : number,
+        public readonly activo? : boolean,
     ) {}
 
-
     static create(obj: { [key: string]: any }): UpdateSeccionDTO {
-        const { id, nombre, gradoId, tutorId, year } = obj;
+        const { id, nombre, gradoId, tutorId, year, activo } = obj;
 
         if (!id || isNaN(Number(id)))
             throw CustomError.badRequest("UpdateSeccionDTO: ID inválido");
@@ -28,13 +28,13 @@ export class UpdateSeccionDTO {
         if (!year || isNaN(Number(year)))
             throw CustomError.badRequest("UpdateSeccionDTO: Year inválido");
 
-
         return new UpdateSeccionDTO(
-            Number(id), 
-            nombre, 
-            Number(gradoId), 
-            Number(tutorId), 
-            Number(year)
+            Number(id),
+            nombre,
+            Number(gradoId),
+            Number(tutorId),
+            Number(year),
+            activo !== undefined ? Boolean(activo) : undefined
         );
     }
 }
