@@ -1,6 +1,5 @@
 # 📚 Backend Escuela
-https://youtu.be/FyiPwlQq2R0
-
+https://youtu.be/xX1GPiofQO4
 Proyecto backend para gestión escolar, desarrollado con **Node.js**, **TypeScript**, **Express**, **Prisma ORM** y siguiendo principios de **Clean Architecture + DDD**.
 
 ---
